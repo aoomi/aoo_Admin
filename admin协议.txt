@@ -1,0 +1,603 @@
+﻿1、登录 /admin/login
+    请求: {"userName":"1", "passWord":"1"}
+    响应：{"errorCode":0, "userName":"1", "serverTime":"12313465131", "level":2147483647,"roomCardNum":0, "authorization":"13rqeasdasd1ws"}
+    备注：
+        1、userName：账号(测试账号：admin)
+        2、passWord：MD5("123456")
+        3、serverTime：当前服务器时间戳
+        4、level：等级(1、普通管理员  2、精英管理员  2147483647、超级管理员)
+        5、roomCardNum：当前房卡数
+        5、authorization：通信令牌(消息头中"Authorization"属性的值设置为此值)
+
+2、重新加载服务器配置表 /admin/reloadXml
+    请求: {"xmls":["00001.xml","00002.xml",......]} 
+    响应：{"errorCode":0}
+    备注：
+        1、xmls：服务器配置表名称
+
+3、获取所有管理员 /admin/getAdmins
+    请求: {} 
+    响应：{"errorCode":0,"array":[{"userName":"xx","creater":"xx","createTime":0,"level":0,"roomCardNum":0},...]}
+    备注：
+        1、userName：管理员用户名
+        2、creater：创建者
+        3、createTime：创建时间戳
+        4、level：等级(1、普通管理员 2、精英管理员(可设置社区长 空投U))
+        5、roomCardNum：房卡数
+
+4、创建管理员 /admin/createAdmin
+    请求: {"userName":"123abc", "passWord":"abc123", "level":0}
+    响应：{"errorCode":0}
+    备注：
+        1、userName：用户名
+        2、passWord：密码
+        3、level：等级(1、普通管理员 2、精英管理员(可设置社区长 空投U))
+
+5、修改管理员 /admin/modifyAdmin
+    请求: {"userName":"123abc", "passWord":"abc123", "level":0}
+    响应：{"errorCode":0}
+    备注：
+        1、userName：用户名
+        2、passWord：密码
+        3、level：等级(1、普通管理员 2、精英管理员(可设置社区长 空投U))
+
+        不需要修改的参数可以不传
+
+5、移除管理员 /admin/removeAdmin
+        请求: {"userName":"123abc"}
+        响应：{"errorCode":0}
+        备注：
+            1、userName：用户名
+
+6、获取操作日志 /admin/getOperateLogs
+    请求: {"page": 1, "maxperpage": 10, "startTime": 0, "endTime": 0, "operateType":1, "operater": "admin"}
+    响应：{"errorCode":0, "total":0, "array":[{},...]}
+    备注：
+        1、startTime：起始时间戳
+        2、endTime：结束时间戳
+        3、page：当前页数
+        4、maxperpage：每页显示的记录数
+        5、operater：操作者(不传此参数 表示所有操作者)
+        6、operateType：操作类型(不传此参数 表示所有操作)
+
+        admin：操作管理员   time：时间戳
+    1、创建管理员：{"operateType":1, "admin":"", "time":123, "userName":"13", "level":0}
+        userName: 新创建的管理员用户名  level: 等级(0、普通管理员 1、精英管理员)
+    2、修改管理员：{"operateType":2, "admin":"", "time":123, "userName":"13", "passWord":true, "level":0}
+        userName: 想要修改的管理员用户名  passWord：是否修改了密码  level:等级(0、普通管理员 1、精英管理员)
+    3、移除管理员：{"operateType":3, "admin":"", "time":123, "userName":"13"}
+        userName: 想要移除的管理员用户名
+    4、登录：{"operateType":4, "admin":"", "level":0, "time":123}
+    5、赠送房卡：{"operateType":5, "admin":"", "target": "1234567", "num":123, "giverRoomCardNum":1, "targetRoomCardNum":1, "time":123}
+        target: 目标唯一标识  num：赠送房卡数  giverRoomCardNum: 赠送者剩余房卡数  targetRoomCardNum: 目标房卡数
+    6、设置大厅游戏房间权限：{"operateType":6, "admin":"", "gameType":"1","targetPpk":"1","childType":1,"isOwn":true, "time":123}
+        gameType：游戏类型(1、棋牌)  targetPpk：目标唯一标识  childType：子游戏类型(1、麻将 5、跑得快 6、扯旋)  isOwn：是否开启
+    7、设置俱乐部游戏房间权限：{"operateType":7, "admin":"", "gameType":"1","targetPpk":"1","childType":1,"isOwn":true,"clubKey":"1","time":123}
+        gameType：游戏类型(1、棋牌)  targetPpk：目标唯一标识  childType：子游戏类型(1、麻将 5、跑得快 6、扯旋)  isOwn：是否开启  clubKey：俱乐部唯一标识
+    8、设置俱乐部开房免费时间段：{"operateType":8, "admin":"", "clubKey":"13", "startTime":1, endTime:1, "time":123}
+        clubKey：俱乐部唯一标识  startTime：开始时间戳  endTime：结束时间戳
+    9、设置俱乐部模式：{"operateType":9, "admin":"", "clubKey":"13", "model":1, "isOwn":true, "time":123}
+        clubKey：俱乐部唯一标识  model：模式(0、亲友圈 1、联盟)  isOwn：是否开启
+    10、设置俱乐部默认模式权限：{"operateType":10, "admin":"", "modelLimit":1, "time":123}
+        modelLimit：模式权限(1、亲友圈 3、亲友圈 + 联盟)
+
+7、赠送房卡 /admin/giveRoomCard
+        请求: {"target":"123","num":"1"}
+        响应：{"errorCode":0,"giverRoomCardNum":"1"}
+        备注：
+            1、target：目标唯一标识(玩家唯一标识或管理员用户名)
+            2、num：赠送的房卡数(负数为减 正数为加)
+            3、giverRoomCardNum：赠送者赠送后房卡数
+
+8、设置大厅游戏房间权限 /admin/setGameRoomLimit
+        请求: {"gameType":"1","targetPpk":"1","childTypes":[1,2,3]}
+        响应：{"errorCode":0}
+        备注：
+            1、gameType：游戏类型(1、棋牌)
+            2、targetPpk：目标唯一标识
+            3、childTypes：开启的子游戏类型(1:麻将 4:考考 5:跑得快 6:扯旋 7:牛牛 8:金花)
+
+9、设置俱乐部游戏房间权限 /admin/setClubGameRoomLimit
+        请求: {"gameType":"1","targetPpk":"1","childType":[1,2,3],"clubKey":"1"}
+        响应：{"errorCode":0}
+        备注：
+            1、gameType：游戏类型(1、棋牌)
+            2、targetPpk：目标唯一标识
+            3、childTypes：开启的子游戏类型(1:麻将 4:考考 5:跑得快 6:扯旋 7:牛牛 8:金花)
+            4、clubKey：俱乐部唯一标识
+
+10、设置俱乐部房费免费时间段 /admin/setClubFreeRoomCardTime
+        请求: {"clubKey":"1","startTime":"1","endTime":1}
+        响应：{"errorCode":0}
+        备注：
+            1、clubKey：俱乐部唯一标识
+            2、startTime：开始时间戳
+            3、endTime：结束时间戳
+
+11、设置俱乐部模式 /admin/setClubModel
+        请求: {"clubKey":"1","model":1,"isOwn":true}
+        响应：{"errorCode":0}
+        备注：
+            1、clubKey：俱乐部唯一标识
+            2、model：模式(0、亲友圈 1、联盟)
+            3、isOwn：是否开启
+
+12、设置俱乐部默认模式权限 /admin/setClubDefaultModelLimit
+        请求: {"modelLimit":1}
+        响应：{"errorCode":0}
+        备注：
+            modelLimit：模式权限(1、亲友圈 3、亲友圈 + 联盟)
+
+13、获取房卡消耗记录(获取俱乐部也是此接口) /admin/getRoomCardCostRecords
+        请求: {"page":1,"maxperpage":10,"type":1,"timeType": 1,"zeroTime": 1, "arg": "abc", "clubModel":1}
+        响应：{"errorCode":0, "total": 1, "array":[{"ppk":"1","nickName":"1","avatarUrl":"http://","costRoomCardNum":1,"roomCardNum":1,"phoneNumber":"1","clubKey":"1","clubName":"1","clubOnlineNum":1,"clubTotalNum":1,"clubFreeRoomCardTimes":[0,0],"clubModelLimit":1},...]}
+        备注：
+            1、page：当前页数
+            2、maxperpage：每页最大记录数
+            3、type：类型(1、玩家  2、俱乐部)
+            4、timeType：时间类型(1、日  2、周  3、月)
+            5、zeroTime：对应timeType的零点时间
+            6、arg：指定查询参数(名称或id字符串 此参数可传可不传)
+            7、ppk：玩家唯一标识
+            8、nickName：玩家昵称
+            9、avatarUrl：玩家头像地址
+            10、costRoomCardNum：消耗房卡数
+            11、roomCardNum：玩家当前房卡数
+            12、phoneNumber：电话号码
+            13、clubKey：俱乐部唯一标识
+            14、clubName：俱乐部名称
+            15、clubOnlineNum：俱乐部在线人数
+            16、clubTotalNum：俱乐部总人数(为0时该俱乐部已删除)
+            17、clubFreeRoomCardTimes：房费免费时间段([0,0] 开始时间戳,结束时间戳)
+            18、clubModelLimit：模式权限(取此值的对应位数的二进制(0、亲友圈  1、联盟),如果为0表示无权限 为1表示有权限)
+            19、clubModel：俱乐部模式(0、亲友圈  1、联盟  作为请求参数时可传可不传, 最为返回参数时表示当前俱乐部模式)
+
+14、获取用户列表 /admin/getUsers
+    请求: {"page": 1, "maxperpage": 10, "arg": "123", "type" : 1}
+    响应：{"errorCode":0,"total":12,"users":[{"ppk":"", "type":0, "createTime":0,"loginTime":0,"loginType":1,"nickName":"","avatarUrl":"","bindInfos":[{"type" : 1, "key" : "12314"},...], "robotInfo" : {"playableGames":[{"classificationRegionCode": 1, "gameType": 1, "baseNumAreas":[[100,200],[300,500]]},...], "playableTimes":[[1,2],[3,4],...]，"clubIds":["123456",...],"gamingClubKey":""}, "propertys":[{"1": 100},...],"playedGames":[1001,...]},...}
+    备注：
+        1、page：当前页数
+        2、maxperpage：每页显示的记录数
+        3、arg：查询参数(账号或ID或昵称(如果是ID需要在前面加上0000100000  保证为16位数) 账号或ID为精准查询、昵称为模糊查询 次参数可不传)
+        3、total：总用户数
+        4、type: 账号类型(0、玩家  1、陪玩  2、机器人)  请求时此参数可传可不传
+        5、createType: 创建时类型(0、玩家  1、陪玩  2、机器人)
+        6、createTime: 创建时间戳
+        7、loginTime：登录时间戳
+        8、loginType：最后一次登录类型(0、游客 1、微信 2、电话)
+        9、bindInfos：绑定账号信息([{"type" : 1, "key" : "12314"},...]  type:类型(0、游客 1、微信 2、电话) key:账号)
+        10、propertys：用户所有属性([{"1": 100},...])
+        11、ppk：玩家唯一标识
+        12、nickName：玩家昵称
+        13、avatarUrl：玩家头像地址(当地址不带http时 需要使用固定的头像地址+"/"+此值)
+        14、playedGames：已玩过的游戏列表(/1000为地区 %1000为游戏类型)
+        15、robotInfo：机器人信息(此字段的值可能为空)
+        16、classificationRegionCode：玩法地区标签
+        17、gameType：游戏类型
+        18、baseNumAreas：底分区间列表[[最低积分,最高积分],[最低积分,最高积分],...] 积分为字符串
+        19、playableTimes：游戏时间区间列表[[开始时间戳,结束时间戳],[开始时间戳,结束时间戳],...]
+        20、gamingClubKey：正在哪个俱乐部游戏中(为null就是不在)
+
+        备注：用户所有属性
+              "1"：金币
+              "2"：钻石
+              "3"：房卡
+              "10"：性别
+              "20"：游戏房间权限(此值为long型)、取此值的对应位数的二进制(1、麻将 5、跑得快 6、扯旋),如果为0表示无权限 为1表示有权限
+              "1002"：玩家下线时间戳(0、在线 其余时间为离线时间戳)
+        游戏地区：1、成都 4、金堂 5、隆昌 6、内江 7、简阳 8、冕宁 9、凉山
+        游戏类型：1:麻将 4:考考 5:跑得快 6:扯旋 7:牛牛 8:金花
+
+15、批量创建账号 /admin/batchCreateUser
+        请求: {"type":1, "num" : 1, "passWord": ""}
+        响应：{"errorCode":0}
+        备注：
+            1、type：账号类型(0、玩家  1、陪玩  2、机器人)
+            2、num: 生成数量
+            3、passWord：密码(md5加密后的字符串)
+
+16、修改账户密码 /admin/modifyUserPassWord
+        请求: {"args": ["1xa", "sad", ...], "passWord": ""}
+        响应：{"errorCode":0}
+        备注：
+            1、args：用户名或ppk列表
+            2、passWord：密码(md5加密后的字符串)
+
+17、获取俱乐部成员列表 /admin/getClubMembers
+    请求: {"page": 1, "maxperpage": 10, "clubKey": "123","timeType": 1,"zeroTime":0, "ppk":"123456","realWinNumSort":1,"nickName":"ads","identitys":[1,2],"userTypes":[0,1],"gameType":0}
+    响应：{"errorCode":0,"total":12,"members":[{"ppk":"1","nickName":"1","avatarUrl":"http://","level":1,"teamGamingNum":1,"teamTotalNum":1,"chessgameroomLimit":0,"totalCent":0.0, "realWinNum":"0.0", "roomFeeNum":"0.0"},...}
+    备注：
+        1、page：当前页数
+        2、maxperpage：每页显示的记录数
+        3、clubKey：俱乐部标识(如果标识为5为则需要前面加上0000100000  保证为16位数))
+        4、total：总成员数
+        5、ppk：玩家唯一标识
+        6、nickName：玩家昵称
+        7、avatarUrl：玩家头像地址
+        8、level：身份(0、圈主 1、管理 + 队长 2、管理 3、队长 10、普通成员)
+        9、teamGamingNum：团队游戏中人数
+        10、teamTotalNum：团队总人数
+        11、chessgameroomLimit：游戏房间权限(1、麻将 5、跑得快 6、扯旋)
+        12、totalCent：总积分
+        13、timeType：时间类型(1、日  2、周  3、月)
+        14、zeroTime：对应timeType的零点时间
+        15、realWinNum：实际战绩(该字段可能不为数值， 不为数值时原样显示即可)
+        16、roomFeeNum：扣除房费(该字段可能不为数值， 不为数值时原样显示即可)
+        17、realWinNumSort：战绩排序(1、升序 -1、降序)
+        18、nickName：昵称(可模糊查询)
+        19、identitys：身份集合(0、圈主 1、管理 + 队长 2、管理 3、队长 10、普通成员)
+        20、curator：圈主数据
+        21、userTypes：账号类型集合(0、玩家  1、陪玩  2、机器人)
+        22、gameType：游戏类型(可传可不传)
+    备注：实际战绩 + 扣除房费 = 战绩
+
+18、获取游戏房间权限成员列表 /admin/getGameRoomLimitMembers
+    请求: {"page": 1, "maxperpage": 10, "clubKey": "123", "ppk":"", "gameTypes":[5,6],"timeType": 1,"zeroTime":0,"gameType":0}
+    响应：{"errorCode":0,"total":12,"array":[{"ppk":"1","nickName":"1","avatarUrl":"http://","clubKey": "123","clubName":"","gameTypes":[5,6], "realWinNum":"0.0", "roomFeeNum":"0.0"},...}
+    备注：
+        1、page：当前页数
+        2、maxperpage：每页显示的记录数
+        3、clubKey：俱乐部标识(如果标识为5为则需要前面加上0000100000  保证为16位数))
+        4、ppk：玩家唯一标识
+        5、gameTypes：已拥有权限的游戏(1、麻将 5、跑得快 6、扯旋)
+        6、total：总成员数
+        7、nickName：玩家昵称
+        8、avatarUrl：玩家头像地址
+        9、clubName：俱乐部名称
+        10、timeType：时间类型(1、日  2、周  3、月)
+        11、zeroTime：对应timeType的零点时间
+        12、realWinNum：实际战绩
+        13、roomFeeNum：扣除房费
+        14、gameType：游戏类型(可传可不传)
+    备注：实际战绩 + 扣除房费 = 战绩
+
+19、获取客服信息 /admin/getCustomerService
+        请求: {}
+        响应：{"errorCode":0, "service":"{"qq":["qq123456"],"wx":["wx123456"]}"}
+        备注：
+            1、service：客服信息(此字段为字符串)
+
+20、设置客服信息 /admin/setCustomerService
+        请求: {"service":"{"qq":["qq123456"],"wx":["wx123456"]}"}
+        响应：{"errorCode":0}
+        备注：
+            1、service：客服信息(参数根据需求可自定义 目前qq、wx必须这样传  此字段为字符串)
+
+21、绑定账户 /admin/bindUser
+        请求: {"type": 2, "arg": "123", "userName": "131111111111", "passWord": "510"}
+        响应：{"errorCode":0}
+        备注：
+            1、type：绑定类型(2、电话号码)
+            2、arg：要被绑定的账号或ID(如果是ID需要在前面加上0000100000  保证为16位数)
+            3、userName：新账号名称
+            4、passWord：密码(md5加密后的字符串)
+
+            解释：使用userName绑定到arg账号上，绑定成功后使用userName登录上arg账号
+
+22、获取相同IP的用户 /admin/getSameIpUsers
+        请求: {"page": 1, "maxperpage": 10, "ip": "127.0.0.1", "ppk":""}
+        响应：{"errorCode":0,"total":12,"array":[{"ip":"127.0.0.1","users":[{ppk":"1","nickName":"1","avatarUrl":"http://"},...]},...]}
+        备注：
+            1、page：当前页数
+            2、maxperpage：每页显示的记录数
+            3、ip：ip地址(作为请求参数时可传可不传)
+            4、ppk：玩家唯一标识(作为请求参数时可传可不传)
+            5、total：ip地址总数
+            6、nickName：玩家昵称
+            7、avatarUrl：玩家头像地址
+
+23、设置昵称 /admin/setNickName
+        请求: {"ppk":"", "nickName":""}
+        响应：{"errorCode":0}
+        备注：
+            1、ppk：玩家唯一标识
+            2、nickName：玩家昵称(最大6个汉字 12个英文字符)
+
+23、设置头像ID /admin/setAvatarId
+        请求: {"ppk":"", "avatarId":1}
+        响应：{"errorCode":0}
+        备注：
+            1、ppk：玩家唯一标识
+            2、avatarId：头像ID(1-10000)
+
+24、设置用户类型 /admin/setUserType
+        请求: {"ppk":"", "type":1}
+        响应：{"errorCode":0}
+        备注：
+            1、ppk：玩家唯一标识
+            2、type：用户类型(0、玩家  1、陪玩  2、机器人)
+
+25、获取玩家幸运值 /admin/getUserLucky
+        请求: {"page": 1, "maxperpage": 10, "type": 1, "ppk":"", "clubKey":"", "clubName":"", "status":0, "admin":""}
+        响应：{"errorCode":0,"total":12,"array":[{"ppk":"1","nickName":"1","avatarUrl":"http://","clubKey": "123","clubName":"","lucky":0, "targetNum":0, "curNum":0, "status":0, "admin":""},...}]
+        备注：
+            1、page：当前页数
+            2、maxperpage：每页显示的记录数
+            3、type：类型(1、玩家   2、俱乐部队长)
+            4、ppk：玩家唯一标识(作为请求参数时可传可不传)
+            5、clubKey：俱乐部标识(如果标识为5为则需要前面加上0000100000  保证为16位数))(作为请求参数时可传可不传)
+            6、clubName：俱乐部名称(作为请求参数时可传可不传)
+            7、status：状态(0、进行中  1、已结束)(作为请求参数时可传可不传)
+            8、admin：管理员账户(作为请求参数时可传可不传)
+            9、total：ip地址总数
+            10、nickName：玩家昵称
+            11、avatarUrl：玩家头像地址
+            12、lucky：幸运值
+            13、targetNum：目标值
+            14、curNum：当前值
+
+26、移除玩家幸运值 /admin/removeUserLucky
+        请求: {"type":1, "ppk":""，"clubKey":""}
+        响应：{"errorCode": 0}
+        备注：
+            1、ppk：玩家唯一标识
+            2、type：类型(1、玩家   2、俱乐部队长)
+            3、clubKey：俱乐部标识(如果标识为5为则需要前面加上0000100000  保证为16位数)
+
+27、设置玩家幸运值 /admin/setUserLucky
+        请求: {"type":1, "ppk":""，"clubKey":"", "lucky": 0, "targetNum": 0}
+        响应：{"errorCode": 0}
+        备注：
+            1、type：类型(1、玩家   2、俱乐部队长)
+            2、ppk：玩家唯一标识(作为请求参数时可传可不传)
+            3、lucky：幸运值
+            4、targetNum：目标值
+            5、clubKey：俱乐部标识(如果标识为5为则需要前面加上0000100000  保证为16位数)
+
+28、添加玩家幸运值 /admin/addUserLucky
+        请求: {"type": 1, "ppk":"", "clubKey":"","lucky":0, "targetNum":0}
+        响应：{"errorCode": 0}
+        备注：
+            1、type：类型(1、玩家   2、俱乐部队长)
+            2、ppk：玩家唯一标识(作为请求参数时可传可不传)
+            3、clubKey：俱乐部标识
+            4、lucky：幸运值
+            5、targetNum：目标值
+
+29、获取游戏幸运值 /admin/getGameLucky
+        请求: {"page": 1, "maxperpage": 10, "type": 1}
+        响应：{"errorCode":0,"total":12,"array":[{"type": 1, "countDay":1, "centArg":[0, 0, 0, 0], "gameNumArg":[0, 0, 0, 0], "consecutiveDayArg":[0, 0, 0, 0]},...}]
+        备注：
+            1、page：当前页数
+            2、maxperpage：每页显示的记录数
+            3、type：类型(作为请求参数时可传可不传)
+            4、centArg：输赢积分参数[输的分数，增加的幸运值, 赢的分数，减少的幸运值]
+            5、gameNumArg：输赢局数参数[输的最小局数，输的最大局数，增加的基础幸运值，每局增加的幸运值]
+            6、consecutiveDayArg：连续输赢天数参数[输的最小天数，输的最大天数，增加的基础幸运值，每局增加的幸运值]
+
+30、移除游戏幸运值 /admin/removeGameLucky
+        请求: {"type":1}
+        响应：{"errorCode": 0}
+        备注：
+            1、type：游戏类型
+
+31、设置游戏幸运值 /admin/setGameLucky
+        请求: {"type": 1, "countDay":1, "centArg":[0, 0, 0, 0], "gameNumArg":[0, 0, 0, 0], "consecutiveDayArg":[0, 0, 0, 0]}
+        响应：{"errorCode": 0}
+        备注：
+            1、type：游戏类型
+            2、countDay：统计天数(可传可不传)
+            3、centArg：输赢积分参数[输的分数，增加的幸运值, 赢的分数，减少的幸运值](可传可不传)
+            4、gameNumArg：输赢局数参数[输的最小局数，输的最大局数，增加的基础幸运值，每局增加的幸运值](可传可不传)
+            5、consecutiveDayArg：连续输赢天数参数[输的最小天数，输的最大天数，增加的基础幸运值，每局增加的幸运值](可传可不传)
+
+32、添加游戏幸运值 /admin/addGameLucky
+        请求: {"type": 1, "countDay":1, "centArg":[0, 0, 0, 0], "gameNumArg":[0, 0, 0, 0], "consecutiveDayArg":[0, 0, 0, 0]}
+        响应：{"errorCode": 0}
+        备注：
+            1、type：游戏类型
+            2、countDay：统计天数
+            3、centArg：输赢积分参数[输的分数，增加的幸运值, 赢的分数，减少的幸运值]
+            4、gameNumArg：输赢局数参数[输的最小局数，输的最大局数，增加的基础幸运值，每局增加的幸运值]
+            5、consecutiveDayArg：连续输赢天数参数[输的最小天数，输的最大天数，增加的基础幸运值，每局增加的幸运值]
+
+33、设置机器人信息 /admin/setRobotInfo
+        请求: {"ppks": ["0001","0002",...], "playableGames":[{"classificationRegionCode": 1, "gameType": 1, "baseNumAreas":[[100,200],[300,500]]},...], "playableTimes":[[1,2],[3,4],...]}
+        响应：{"errorCode": 0}
+        备注：
+            1、ppks：玩家唯一标识集合
+            2、classificationRegionCode：玩法地区标签
+            3、gameType：游戏类型
+            4、baseNumAreas：底分区间列表[[最低积分,最高积分],[最低积分,最高积分],...] 积分为字符串
+            5、playableTimes：游戏时间区间列表[[开始时间戳(时分),结束时间戳(时分)],[开始时间戳(时分),结束时间戳(时分)],...]
+
+34、获取俱乐部AI列表 /admin/getClubAIs
+        请求: {"page": 1, "maxperpage": 10, "clubKey" : "1"}
+        响应：{"errorCode":0,"total":12,"array":[{"uid": 1,"clubKey":"1","clubName":"abc","clubCreatorPpk":"123","clubCreatorNickName":"abc","clubCreatorAvatar":"",loseWin:"1","roomFee":"1","robotNum":1,"status":1},...]}
+        备注：
+            1、page：当前页数
+            2、maxperpage：每页显示的记录数
+            3、clubKey：俱乐部唯一标识(可传可不传)
+            4、uid：唯一标识
+            5、clubName：俱乐部名称
+            6、clubCreatorPpk：俱乐部圈主
+            7、clubCreatorNickName：俱乐部圈主昵称
+            8、clubCreatorAvatar：俱乐部圈主头像地址
+            9、loseWin：战绩
+            10、roomFee：房费
+            11、robotNum：机器人数量
+            12、status：状态(0、暂停 1、开启中)
+
+35、添加俱乐部AI /admin/addClubAI
+        请求: {"clubKey" : "1"}
+        响应：{"errorCode": 0}
+        备注：
+            1、clubKey：俱乐部唯一标识
+
+36、设置俱乐部AI状态 /admin/setClubAIStatus
+        请求: {"clubKey" : "1"，"status": 0}
+        响应：{"errorCode": 0}
+        备注：
+            1、clubKey：俱乐部唯一标识
+            2、status：状态(0、暂停 1、开启中)
+
+37、移除俱乐部AI /admin/removeClubAI
+        请求: {"clubKey" : "1"}
+        响应：{"errorCode": 0}
+        备注：
+            1、clubKey：俱乐部唯一标识
+
+38、获取俱乐部AI规则房间列表 /admin/getClubAIRuleRooms
+        请求: {"clubKey" : "1"}
+        响应：{"errorCode":0,"gameAndBases":[{"classificationRegionCode":1,"array":[{"gameType":7,"baseNums":["1.0,..."]},...], "total":12,"array":[{"uid": 1,"classificationRegionCode":1,"gameType":1,"baseNum":"1","maxMemberNum":1,"status":1,"timeAndTables":[[1,1,2,5],...],"curLoseWin":"1","roomFee":"1",loseWinAreas:["1","2"],"robotNum":1},...]}
+        备注：
+            1、clubKey：俱乐部唯一标识
+            2、uid：唯一标识
+            3、classificationRegionCode：玩法地区标签
+            4、gameType：游戏类型
+            5、baseNum：底分
+            6、timeAndTables：开桌时间与开桌数[开始时间戳,结束时间戳,最小桌数,最大桌数]
+            7、curLoseWin：当前库存
+            8、loseWinAreas：库存区间
+            9、roomFee：房费
+            10、robotNum：机器人数量
+            11、gameAndBases：游戏中所开的的模版房间规则{"游戏类型":[底注1,底注2,...]}
+            12、maxMemberNum：最大人数
+            13、status：状态(0、暂停  1、开始)
+
+39、添加俱乐部AI规则房间 /admin/addClubAIRuleRoom
+        请求: {"clubKey" : "1", "classificationRegionCode":1,"gameType":1,"baseNum":"1.0","maxMemberNum":1,"timeAndTables":[[1,1,2,5],...],"loseWinAreas":["100","200"]}
+        响应：{"errorCode": 0}
+        备注：
+            1、clubKey：俱乐部唯一标识
+            2、classificationRegionCode：玩法地区标签
+            3、gameType：游戏类型
+            4、baseNum：底分
+            5、timeAndTables：开桌时间与开桌数[开始时间戳(时分),结束时间戳(时分),最小桌数,最大桌数]
+            6、loseWinAreas：库存区间["最小区间","最大区间"]
+            7、maxMemberNum：最大人数
+
+40、修改俱乐部AI规则房间 /admin/modifyClubAIRuleRoom
+        请求: {"uid":1,"clubKey":"1","baseNum":"1.0","status":1,"timeAndTables":[[1,1,2,5],...],"curLoseWin":"1.0", "loseWinAreas":["100","200"]}
+        响应：{"errorCode": 0}
+        备注：
+            1、uid:俱乐部AI规则房间唯一标识
+            2、clubKey：俱乐部唯一标识
+            3、baseNum：底分
+            4、timeAndTables：开桌时间与开桌数[开始时间戳,结束时间戳,最小桌数,最大桌数]
+            5、curLoseWin：当前库存
+            6、loseWinAreas：库存区间["最小区间","最大区间"]
+            7、status：状态(0、暂停  1、开始)
+
+41、移除俱乐部AI规则房间 /admin/removeClubAIRuleRoom
+        请求: {"clubKey" : "1", "uid":1}
+        响应：{"errorCode": 0}
+        备注：
+            1、clubKey：俱乐部唯一标识
+            2、uid:俱乐部AI规则房间唯一标识
+
+42、获取机器人列表 /admin/getRobots
+        请求: {"page": 1,"maxperpage": 10,"ppk" : "1","classificationRegionCode":1,"gameType":1,"joinType":1,"clubKey":"1"}
+        响应：{"errorCode": 0,"total":12,"array":[{"playableGames":[{"classificationRegionCode":1,"gameType":1,"baseNumAreas":[["0.5","2.0"],["2.0","10.0"]]}],"playableTimes":[[0,86400]],"clubIds":["000010000097105"],"ppk":"0000100000260552","nickName":"?ο?889","avatarUrl":"tx9989"},...], "playableTimes":[[1,2],[3,4],...]，"clubIds":["123456",...],"gamingClubKey":""}],...}
+        备注：
+            1、page：当前页数
+            2、maxperpage：每页显示的记录数
+            3、ppk：玩家唯一标识(作为请求时可传可不传)
+            4、classificationRegionCode：玩法地区标签(作为请求时可传可不传 地区和类型同时传时才生效)
+            5、gameType：游戏类型(作为请求时可传可不传 地区和类型同时传时才生效)
+            6、joinType：加入类型(作为请求时可传可不传 不传则表示全部  0、未加入任何俱乐部  1、已加入当前俱乐部  2、未加入当前俱乐部)
+            7、clubKey：俱乐部唯一标识(作为请求时可传可不传)
+            8、nickName：玩家昵称
+            9、avatarUrl：玩家头像地址
+            10、baseNumAreas：底分区间列表[[最低积分,最高积分],[最低积分,最高积分],...] 积分为字符串
+            11、playableTimes：游戏时间区间列表[[开始时间戳,结束时间戳],[开始时间戳,结束时间戳],...]
+            12、gamingClubKey：正在哪个俱乐部游戏中(为null就是不在)
+
+43、添加俱乐部机器人 /admin/addClubRobot
+        请求: {"clubKey" : "1", "captainPpk":"1","ppks":["1","2",...]}
+        响应：{"errorCode": 0}
+        备注：
+            1、clubKey：俱乐部唯一标识
+            2、captainPpk：队长唯一标识
+            3、ppks：加入的机器人唯一标识列表
+
+44、移除俱乐部机器人 /admin/removeClubRobot
+        请求: {"clubKey" : "1", "ppks":["1","2",...]}
+        响应：{"errorCode": 0}
+        备注：
+            1、clubKey：俱乐部唯一标识
+            2、ppks：加入的机器人唯一标识列表
+
+45、获取俱乐部机器人分数信息 /admin/getClubRobotCentInfo
+        请求: {}
+        响应：{"errorCode": 0，"centArg":["1000","10000","5000"]}
+        备注：
+            1、centArg：[最小携带积分,最大携带积分,加减积分倍数]
+
+46、设置俱乐部机器人分数信息 /admin/setClubRobotCentInfo
+        请求: {"centArg":["1000","10000","5000"]}
+        响应：{"errorCode": 0}
+        备注：
+            1、centArg：[最小携带积分,最大携带积分,加减积分倍数]  积分字为符串格式
+
+47、获取俱乐部状态 /admin/getClubStatus
+        请求: {}
+        响应：{"errorCode": 0，"status":0, "tips":""}
+        备注：
+            1、status：状态(0、正常 1、打烊)
+            2、tips：打烊时提示文字
+
+48、设置俱乐部状态 /admin/setClubStatus
+        请求: {"status":0, "tips":""}
+        响应：{"errorCode": 0}
+        备注：
+            1、status：状态(0、正常 1、打烊)
+            2、tips：提示(打烊时提示文字 正常时可不传)
+
+备注：/admin 端口为8645
+
+alter table `ddgameserver`.`user` add column `ip` varchar(36) NOT NULL after `userInfoMap`;
+alter table `ddgameserver`.`role` add column `playedGames` varbinary(1024) NULL after `clubKeys`;
+alter table `ddgameserver`.`user` add column `robotInfo` varbinary(2048) NULL after `ip`;
+create table `ddgameserver`.`clubai`( `uid` bigint(19) NOT NULL , `clubKey` varchar(32) NOT NULL , `clubName` varchar(32) NOT NULL , `clubCreatorPpk` varchar(16) NOT NULL , `curLoseWin` int(11) NOT NULL , `roomFee` int(11) NOT NULL , `roomRules` varbinary(60000) NOT NULL , `status` int(11) NOT NULL , PRIMARY KEY (`clubKey`))  ;
+
+db.roomlimitdaywin.updateMany({}, {"$set": {"gameTypeRealWinNums":[NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0)],"gameTypeRoomFeeNums":[NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0)]}});
+db.roomlimitweekwin.updateMany({}, {"$set": {"gameTypeRealWinNums":[NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0)],"gameTypeRoomFeeNums":[NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0)]}});
+db.roomlimitmonthwin.updateMany({}, {"$set": {"gameTypeRealWinNums":[NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0)],"gameTypeRoomFeeNums":[NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0)]}});
+
+db.clubmemberdaywin.updateMany({}, {"$set": {"gameTypeRealWinNums":[NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0)],"gameTypeRoomFeeNums":[NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0)]}});
+db.clubmemberweekwin.updateMany({}, {"$set": {"gameTypeRealWinNums":[NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0)],"gameTypeRoomFeeNums":[NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0)]}});
+db.clubmembermonthwin.updateMany({}, {"$set": {"gameTypeRealWinNums":[NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0)],"gameTypeRoomFeeNums":[NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0),NumberInt(0)]}});
+
+
+1.0.2版本新增：
+    1、新增接口 获取玩家幸运值 /admin/getUserLucky
+    2、新增接口 移除玩家幸运值 /admin/removeUserLucky
+    3、新增接口 设置玩家幸运值 /admin/setUserLucky
+    4、新增接口 添加玩家幸运值 /admin/addUserLucky
+    5、新增接口 获取游戏幸运值 /admin/getGameLucky
+    6、新增接口 移除游戏幸运值 /admin/removeGameLucky
+    7、新增接口 设置游戏幸运值 /admin/setGameLucky
+    8、新增接口 添加游戏幸运值 /admin/addGameLucky
+1.0.3版本新增：
+    1、获取用户列表 /admin/getUsers接口 新增robotInfo字段及字段里面的信息
+    2、新增接口 设置机器人信息 /admin/setRobotInfo
+    3、移除玩家幸运值 /admin/removeUserLucky接口新增 clubKey字段
+    4、设置玩家幸运值 /admin/setUserLucky接口新增 clubKey字段
+    5、获取游戏幸运值 /admin/getGameLucky
+       设置游戏幸运值 /admin/setGameLucky
+       添加游戏幸运值 /admin/addGameLucky
+       接口 centArg、gameNumArg、consecutiveDayArg字段描述有改动
+    6、新增接口 获取俱乐部AI列表 /admin/getClubAIs
+    7、新增接口 添加俱乐部AI /admin/addClubAI
+    8、新增接口 设置俱乐部AI状态 /admin/setClubAIStatus
+    9、新增接口 移除俱乐部AI /admin/removeClubAI
+    10、新增接口 获取俱乐部AI规则房间列表 /admin/getClubAIRuleRooms
+    11、新增接口 添加俱乐部AI规则房间 /admin/addClubAIRuleRoom
+    12、新增接口 修改俱乐部AI规则房间 /admin/modifyClubAIRuleRoom
+    13、新增接口 移除俱乐部AI规则房间 /admin/removeClubAIRuleRooms
+    14、新增接口 获取机器人列表 /admin/getRobots
+    15、新增接口 添加俱乐部机器人 /admin/addClubRobot
+    16、新增接口 移除俱乐部机器人 /admin/removeClubRobot
+1.0.3版本新增：
+    1、新增接口 获取俱乐部机器人分数信息 /admin/getClubRobotCentInfo
+    2、新增接口 设置俱乐部机器人分数信息 /admin/setClubRobotCentInfo
+1.0.4版本新增：
+    1、设置机器人信息 /admin/setRobotInfo接口 ppk改成了ppks，可批处理玩家
+    2、获取俱乐部AI规则房间列表 /admin/getClubAIRuleRooms 新增响应字段maxMemberNum、status 1
+    3、添加俱乐部AI规则房间 /admin/addClubAIRuleRoom 新增请求字段maxMemberNum 1
+    4、修改俱乐部AI规则房间 /admin/modifyClubAIRuleRoom 新增请求字段status(此修改就是可暂停AI单个玩法,默认是暂停的，需要自主开启)
+
+1.0.5版本新增：
+    1、获取俱乐部AI规则房间列表 /admin/getClubAIRuleRooms接口 新增loseWinLuckyNums字段
+    2、修改俱乐部AI规则房间 /admin/modifyClubAIRuleRoom接口 新增loseWinLuckyNums字段

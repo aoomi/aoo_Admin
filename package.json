@@ -1,0 +1,87 @@
+{
+	"name": "vue-next-admin",
+	"version": "2.4.33",
+	"packageManager": "pnpm@11.19.0",
+	"description": "vue3 vite next admin template",
+	"author": "lyt_20201208",
+	"license": "MIT",
+	"scripts": {
+		"dev": "vite --force --configLoader runner",
+		"build": "vite build --mode development --configLoader runner",
+		"build:pro": "vite build --mode production --configLoader runner",
+		"lint-fix": "eslint src tests --fix",
+		"typecheck": "vue-tsc --noEmit",
+		"lint": "eslint src tests",
+		"test": "vitest run",
+		"test:coverage": "vitest run --coverage",
+		"ledger": "node scripts/admin-api-ledger.mjs --write",
+		"ledger:verify": "node scripts/admin-api-ledger.mjs > /dev/null",
+		"quality": "pnpm run lint && pnpm run typecheck && pnpm test && pnpm run ledger:verify && pnpm run build:pro && pnpm audit"
+	},
+	"dependencies": {
+		"@element-plus/icons-vue": "^2.3.2",
+		"axios": "^1.19.0",
+		"dayjs": "^1.11.19",
+		"echarts": "^6.1.0",
+		"element-plus": "^2.14.5",
+		"js-cookie": "^3.0.8",
+		"js-md5": "^0.9.2",
+		"js-table2excel": "^1.1.2",
+		"lodash": "^4.18.1",
+		"mitt": "^3.0.1",
+		"nprogress": "^0.2.0",
+		"pinia": "^4.0.3",
+		"print-js": "^1.6.0",
+		"qrcode": "^1.5.4",
+		"qs": "^6.15.3",
+		"screenfull": "^6.0.2",
+		"sortablejs": "^1.15.7",
+		"vue": "^3.5.41",
+		"vue-i18n": "^11.4.8",
+		"vue-router": "^5.2.0"
+	},
+	"devDependencies": {
+		"@types/node": "^26.2.0",
+		"@types/nprogress": "^0.2.3",
+		"@types/qrcode": "^1.5.6",
+		"@types/sortablejs": "^1.15.9",
+		"@typescript-eslint/parser": "^8.67.0",
+		"@vitejs/plugin-vue": "^6.0.8",
+		"@vitest/coverage-v8": "^4.1.11",
+		"@vue/compiler-sfc": "^3.5.41",
+		"eslint": "^10.9.0",
+		"eslint-plugin-vue": "^10.10.0",
+		"jsdom": "^30.0.1",
+		"sass": "^1.103.1",
+		"typescript": "^6.0.2",
+		"vite": "^8.2.2",
+		"vitest": "^4.1.11",
+		"vue-eslint-parser": "^10.4.1",
+		"vue-tsc": "^3.2.5"
+	},
+	"browserslist": [
+		"> 1%",
+		"last 2 versions",
+		"not dead"
+	],
+	"bugs": {
+		"url": "https://gitee.com/lyt-top/vue-next-admin/issues"
+	},
+	"engines": {
+		"node": "24.19.0",
+		"pnpm": "11.19.0"
+	},
+	"keywords": [
+		"vue",
+		"vue3",
+		"vuejs/vue-next",
+		"element-ui",
+		"element-plus",
+		"vue-next-admin",
+		"next-admin"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://gitee.com/lyt-top/vue-next-admin.git"
+	}
+}

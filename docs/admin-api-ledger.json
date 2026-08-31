@@ -1,0 +1,489 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-24T12:58:32.899Z",
+  "productionPages": [
+    "/login",
+    "/operations"
+  ],
+  "retiredProductionPrefixes": [
+    "/admin",
+    "/userList",
+    "/legacy",
+    "/club",
+    "/roomCard",
+    "/setting",
+    "/log"
+  ],
+  "totals": {
+    "routes": 21,
+    "complete": 21
+  },
+  "rows": [
+    {
+      "page": "玩法发布",
+      "button": "game-profile-list",
+      "dialog": "玩法发布工作流",
+      "method": "GET",
+      "route": "/api/v2/admin/game-profiles",
+      "permission": "game-profile.read",
+      "targetType": "GAME",
+      "approval": "normal",
+      "apiWired": true,
+      "authorizationWired": true,
+      "handlerWired": true,
+      "jdbcRepository": "JdbcGameProfileRepository",
+      "jdbcWired": true,
+      "responseStates": [
+        "loading",
+        "success",
+        "empty",
+        "error"
+      ],
+      "productionEntry": "/operations"
+    },
+    {
+      "page": "业务运营中心",
+      "button": "game-release-read",
+      "dialog": "页内操作",
+      "method": "GET",
+      "route": "/api/v2/admin/game-profile-releases/{scope}/{id}",
+      "permission": "game-profile.read",
+      "targetType": "GAME",
+      "approval": "normal",
+      "apiWired": true,
+      "authorizationWired": true,
+      "handlerWired": true,
+      "jdbcRepository": "JdbcGameProfileReleaseStore",
+      "jdbcWired": true,
+      "responseStates": [
+        "loading",
+        "success",
+        "empty",
+        "error"
+      ],
+      "productionEntry": "/operations"
+    },
+    {
+      "page": "业务运营中心",
+      "button": "game-release-draft",
+      "dialog": "页内操作",
+      "method": "POST",
+      "route": "/api/v2/admin/game-profile-releases/{scope}/{id}/draft",
+      "permission": "game-profile.draft",
+      "targetType": "GAME",
+      "approval": "normal",
+      "apiWired": true,
+      "authorizationWired": true,
+      "handlerWired": true,
+      "jdbcRepository": "JdbcGameProfileReleaseStore",
+      "jdbcWired": true,
+      "responseStates": [
+        "loading",
+        "success",
+        "empty",
+        "error"
+      ],
+      "productionEntry": "/operations"
+    },
+    {
+      "page": "业务运营中心",
+      "button": "game-release-validate",
+      "dialog": "页内操作",
+      "method": "POST",
+      "route": "/api/v2/admin/game-profile-releases/{scope}/{id}/validate",
+      "permission": "game-profile.validate",
+      "targetType": "GAME",
+      "approval": "normal",
+      "apiWired": true,
+      "authorizationWired": true,
+      "handlerWired": true,
+      "jdbcRepository": "JdbcGameProfileReleaseStore",
+      "jdbcWired": true,
+      "responseStates": [
+        "loading",
+        "success",
+        "empty",
+        "error"
+      ],
+      "productionEntry": "/operations"
+    },
+    {
+      "page": "业务运营中心",
+      "button": "game-release-submit",
+      "dialog": "页内操作",
+      "method": "POST",
+      "route": "/api/v2/admin/game-profile-releases/{scope}/{id}/submit",
+      "permission": "game-profile.submit",
+      "targetType": "GAME",
+      "approval": "normal",
+      "apiWired": true,
+      "authorizationWired": true,
+      "handlerWired": true,
+      "jdbcRepository": "JdbcGameProfileReleaseStore",
+      "jdbcWired": true,
+      "responseStates": [
+        "loading",
+        "success",
+        "empty",
+        "error"
+      ],
+      "productionEntry": "/operations"
+    },
+    {
+      "page": "业务运营中心",
+      "button": "game-release-approve",
+      "dialog": "页内操作",
+      "method": "POST",
+      "route": "/api/v2/admin/game-profile-releases/{scope}/{id}/approve",
+      "permission": "game-profile.approve",
+      "targetType": "GAME",
+      "approval": "normal",
+      "apiWired": true,
+      "authorizationWired": true,
+      "handlerWired": true,
+      "jdbcRepository": "JdbcGameProfileReleaseStore",
+      "jdbcWired": true,
+      "responseStates": [
+        "loading",
+        "success",
+        "empty",
+        "error"
+      ],
+      "productionEntry": "/operations"
+    },
+    {
+      "page": "业务运营中心",
+      "button": "game-release-canary",
+      "dialog": "页内操作",
+      "method": "POST",
+      "route": "/api/v2/admin/game-profile-releases/{scope}/{id}/canary",
+      "permission": "game-profile.canary",
+      "targetType": "GAME",
+      "approval": "four-eyes",
+      "apiWired": true,
+      "authorizationWired": true,
+      "handlerWired": true,
+      "jdbcRepository": "JdbcGameProfileReleaseStore",
+      "jdbcWired": true,
+      "responseStates": [
+        "loading",
+        "success",
+        "empty",
+        "error"
+      ],
+      "productionEntry": "/operations"
+    },
+    {
+      "page": "业务运营中心",
+      "button": "game-release-activate",
+      "dialog": "页内操作",
+      "method": "POST",
+      "route": "/api/v2/admin/game-profile-releases/{scope}/{id}/activate",
+      "permission": "game-profile.activate",
+      "targetType": "GAME",
+      "approval": "four-eyes",
+      "apiWired": true,
+      "authorizationWired": true,
+      "handlerWired": true,
+      "jdbcRepository": "JdbcGameProfileReleaseStore",
+      "jdbcWired": true,
+      "responseStates": [
+        "loading",
+        "success",
+        "empty",
+        "error"
+      ],
+      "productionEntry": "/operations"
+    },
+    {
+      "page": "业务运营中心",
+      "button": "game-release-rollback",
+      "dialog": "页内操作",
+      "method": "POST",
+      "route": "/api/v2/admin/game-profile-releases/{scope}/{id}/rollback",
+      "permission": "game-profile.rollback",
+      "targetType": "GAME",
+      "approval": "four-eyes",
+      "apiWired": true,
+      "authorizationWired": true,
+      "handlerWired": true,
+      "jdbcRepository": "JdbcGameProfileReleaseStore",
+      "jdbcWired": true,
+      "responseStates": [
+        "loading",
+        "success",
+        "empty",
+        "error"
+      ],
+      "productionEntry": "/operations"
+    },
+    {
+      "page": "回放调查",
+      "button": "game-investigation-read",
+      "dialog": "只读调查",
+      "method": "GET",
+      "route": "/api/v2/admin/game-investigations/{scope}",
+      "permission": "game-investigation.read",
+      "targetType": "ROOM",
+      "approval": "normal",
+      "apiWired": true,
+      "authorizationWired": true,
+      "handlerWired": true,
+      "jdbcRepository": "JdbcGameInvestigationRepository",
+      "jdbcWired": true,
+      "responseStates": [
+        "loading",
+        "success",
+        "empty",
+        "error"
+      ],
+      "productionEntry": "/operations"
+    },
+    {
+      "page": "运营开关",
+      "button": "operation-switch-list",
+      "dialog": "变更运营开关",
+      "method": "GET",
+      "route": "/api/v2/admin/operation-switches",
+      "permission": "operation-switch.read",
+      "targetType": "GAME",
+      "approval": "normal",
+      "apiWired": true,
+      "authorizationWired": true,
+      "handlerWired": true,
+      "jdbcRepository": "JdbcAdminResourceRepository",
+      "jdbcWired": true,
+      "responseStates": [
+        "loading",
+        "success",
+        "empty",
+        "error"
+      ],
+      "productionEntry": "/operations"
+    },
+    {
+      "page": "运营开关",
+      "button": "operation-switch-update",
+      "dialog": "变更运营开关",
+      "method": "PUT",
+      "route": "/api/v2/admin/operation-switches/{id}",
+      "permission": "operation-switch.update",
+      "targetType": "GAME",
+      "approval": "four-eyes",
+      "apiWired": true,
+      "authorizationWired": true,
+      "handlerWired": true,
+      "jdbcRepository": "JdbcAdminResourceRepository",
+      "jdbcWired": true,
+      "responseStates": [
+        "loading",
+        "success",
+        "empty",
+        "error"
+      ],
+      "productionEntry": "/operations"
+    },
+    {
+      "page": "客服申诉",
+      "button": "appeal-list",
+      "dialog": "处理客服申诉",
+      "method": "GET",
+      "route": "/api/v2/admin/appeals",
+      "permission": "appeal.read",
+      "targetType": "CLUB",
+      "approval": "normal",
+      "apiWired": true,
+      "authorizationWired": true,
+      "handlerWired": true,
+      "jdbcRepository": "JdbcAdminResourceRepository",
+      "jdbcWired": true,
+      "responseStates": [
+        "loading",
+        "success",
+        "empty",
+        "error"
+      ],
+      "productionEntry": "/operations"
+    },
+    {
+      "page": "客服申诉",
+      "button": "appeal-resolve",
+      "dialog": "处理客服申诉",
+      "method": "PUT",
+      "route": "/api/v2/admin/appeals/{id}/resolve",
+      "permission": "appeal.resolve",
+      "targetType": "CLUB",
+      "approval": "four-eyes",
+      "apiWired": true,
+      "authorizationWired": true,
+      "handlerWired": true,
+      "jdbcRepository": "JdbcAdminResourceRepository",
+      "jdbcWired": true,
+      "responseStates": [
+        "loading",
+        "success",
+        "empty",
+        "error"
+      ],
+      "productionEntry": "/operations"
+    },
+    {
+      "page": "账务对账",
+      "button": "reconciliation-run",
+      "dialog": "重新对账",
+      "method": "GET",
+      "route": "/api/v2/admin/reconciliation",
+      "permission": "reconciliation.read",
+      "targetType": "GLOBAL",
+      "approval": "normal",
+      "apiWired": true,
+      "authorizationWired": true,
+      "handlerWired": true,
+      "jdbcRepository": "JdbcReconciliationService",
+      "jdbcWired": true,
+      "responseStates": [
+        "loading",
+        "success",
+        "empty",
+        "error"
+      ],
+      "productionEntry": "/operations"
+    },
+    {
+      "page": "业务运营中心",
+      "button": "data-lifecycle-list",
+      "dialog": "页内操作",
+      "method": "GET",
+      "route": "/api/v2/admin/data-lifecycle",
+      "permission": "lifecycle.read",
+      "targetType": "REGION",
+      "approval": "normal",
+      "apiWired": true,
+      "authorizationWired": true,
+      "handlerWired": true,
+      "jdbcRepository": "JdbcAdminResourceRepository",
+      "jdbcWired": true,
+      "responseStates": [
+        "loading",
+        "success",
+        "empty",
+        "error"
+      ],
+      "productionEntry": "/operations"
+    },
+    {
+      "page": "业务运营中心",
+      "button": "data-lifecycle-update",
+      "dialog": "页内操作",
+      "method": "PUT",
+      "route": "/api/v2/admin/data-lifecycle/{id}",
+      "permission": "lifecycle.update",
+      "targetType": "REGION",
+      "approval": "four-eyes",
+      "apiWired": true,
+      "authorizationWired": true,
+      "handlerWired": true,
+      "jdbcRepository": "JdbcAdminResourceRepository",
+      "jdbcWired": true,
+      "responseStates": [
+        "loading",
+        "success",
+        "empty",
+        "error"
+      ],
+      "productionEntry": "/operations"
+    },
+    {
+      "page": "敏感导出",
+      "button": "sensitive-export-request",
+      "dialog": "敏感导出审批弹窗",
+      "method": "POST",
+      "route": "/api/v2/admin/sensitive-exports/{id}/request",
+      "permission": "sensitive-export.request",
+      "targetType": "EXPORT",
+      "approval": "normal",
+      "apiWired": true,
+      "authorizationWired": true,
+      "handlerWired": true,
+      "jdbcRepository": "JdbcSensitiveExportRepository",
+      "jdbcWired": true,
+      "responseStates": [
+        "loading",
+        "success",
+        "empty",
+        "error"
+      ],
+      "productionEntry": "/operations"
+    },
+    {
+      "page": "敏感导出",
+      "button": "sensitive-export-approve",
+      "dialog": "敏感导出审批弹窗",
+      "method": "POST",
+      "route": "/api/v2/admin/sensitive-exports/{id}/approve",
+      "permission": "sensitive-export.approve",
+      "targetType": "EXPORT",
+      "approval": "four-eyes",
+      "apiWired": true,
+      "authorizationWired": true,
+      "handlerWired": true,
+      "jdbcRepository": "JdbcSensitiveExportRepository",
+      "jdbcWired": true,
+      "responseStates": [
+        "loading",
+        "success",
+        "empty",
+        "error"
+      ],
+      "productionEntry": "/operations"
+    },
+    {
+      "page": "敏感导出",
+      "button": "sensitive-export-generate",
+      "dialog": "敏感导出审批弹窗",
+      "method": "POST",
+      "route": "/api/v2/admin/sensitive-exports/{id}/generate",
+      "permission": "sensitive-export.generate",
+      "targetType": "EXPORT",
+      "approval": "four-eyes",
+      "apiWired": true,
+      "authorizationWired": true,
+      "handlerWired": true,
+      "jdbcRepository": "JdbcSensitiveExportRepository",
+      "jdbcWired": true,
+      "responseStates": [
+        "loading",
+        "success",
+        "empty",
+        "error"
+      ],
+      "productionEntry": "/operations"
+    },
+    {
+      "page": "敏感导出",
+      "button": "sensitive-export-download",
+      "dialog": "敏感导出审批弹窗",
+      "method": "GET",
+      "route": "/api/v2/admin/sensitive-exports/{id}/download",
+      "permission": "sensitive-export.download",
+      "targetType": "EXPORT",
+      "approval": "normal",
+      "apiWired": true,
+      "authorizationWired": true,
+      "handlerWired": true,
+      "jdbcRepository": "JdbcSensitiveExportRepository",
+      "jdbcWired": true,
+      "responseStates": [
+        "loading",
+        "success",
+        "empty",
+        "error"
+      ],
+      "productionEntry": "/operations"
+    }
+  ],
+  "verification": {
+    "status": "passed",
+    "failures": []
+  }
+}
