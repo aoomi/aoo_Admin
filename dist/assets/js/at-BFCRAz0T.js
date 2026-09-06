@@ -1,0 +1,1 @@
+import{Bt as e,Dt as t,St as n,mt as r}from"./@element-plus-DKORZMWS.js";import{t as i}from"./lucky-CorYO-6L.js";t();var a=n({__name:`at`,setup(t){return(t,n)=>(e(),r(i,{type:2}))}});export{a as default};

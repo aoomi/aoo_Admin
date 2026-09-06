@@ -1,0 +1,1 @@
+var e=[10,20,30,50,100],t=`sizes, prev, pager, next, jumper, ->, total`;export{e as n,t};
