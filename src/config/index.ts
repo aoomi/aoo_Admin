@@ -68,10 +68,10 @@ export const identityMap = identitys.reduce(
 // 成员等级
 export const levels = [
 	{ label: '圈主', value: 0 },
-	{ label: '管理 + 队长', value: 1 },
-	{ label: '管理', value: 2 },
+	{ label: '圈管理 + 队长', value: 1 },
+	{ label: '圈管理', value: 2 },
 	{ label: '队长', value: 3 },
-	{ label: '普通成员', value: 10 },
+	{ label: '成员', value: 10 },
 ] as const;
 
 export type LevelMap = {

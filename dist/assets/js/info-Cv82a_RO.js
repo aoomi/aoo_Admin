@@ -1,1 +1,0 @@
-import{Bt as e,Dt as t,St as n,mt as r}from"./@element-plus-DKORZMWS.js";import{t as i}from"./GameProfiles-DOX8A3qS.js";t();var a=n({__name:`info`,setup(t){return(t,n)=>(e(),r(i))}});export{a as default};

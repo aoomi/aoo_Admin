@@ -12,7 +12,7 @@
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="模式" prop="model">
 							<el-select v-model="ruleForm.model" style="width: 200px" placeholder="请选择模式" clearable>
-								<el-option label="亲友圈" :value="0"></el-option>
+								<el-option label="俱乐部" :value="0"></el-option>
 								<el-option label="联盟" :value="1"></el-option>
 							</el-select>
 						</el-form-item>
@@ -57,7 +57,7 @@ var props = defineProps({
 //         响应：{"errorCode":0}
 //         备注：
 //             1、clubKey：俱乐部唯一标识
-//             2、model：模式(0、亲友圈 1、联盟)
+//             2、model：模式(0、俱乐部 1、联盟)
 //             3、isOwn：是否开启
 //父级传递来的函数，用于回调
 const emit = defineEmits(['reloadTable']);

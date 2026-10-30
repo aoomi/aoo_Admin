@@ -192,12 +192,12 @@ const operateTypeMap = {
 };
 
 const modelMap = {
-	0: '亲友圈',
+	0: '俱乐部',
 	1: '联盟',
 };
 const modelLimitMap = {
-	1: '亲友圈',
-	3: '联盟 + 亲友圈',
+	1: '俱乐部',
+	3: '联盟 + 俱乐部',
 };
 // import { pageSwiper, deleteSwiper } from '/@/api/main/swiper';
 

@@ -29,7 +29,7 @@
 				<el-form-item v-if="queryParams.type === 2" label="俱乐部类型">
 					<el-select v-model="queryParams.clubModel" placeholder="请选择类型" style="width: 150px">
 						<el-option label="全部" value="" />
-						<el-option label="亲友圈" :value="0" />
+						<el-option label="俱乐部" :value="0" />
 						<el-option label="联盟" :value="1" />
 					</el-select>
 				</el-form-item>
@@ -93,8 +93,8 @@
 				</el-table-column>
 				<!-- <el-table-column prop="clubModelLimit" label="模式权限" min-min-width="200">
 					<template #default="{ row }">
-						<p>当前模式: {{ row.clubModel == 0 ? '亲友圈' : '联盟' }}</p>
-						<p>亲友圈：{{ GetBit(row.clubModelLimit, 0) == 0 ? '无权限' : '有权限' }}</p>
+						<p>当前模式: {{ row.clubModel == 0 ? '俱乐部' : '联盟' }}</p>
+						<p>俱乐部：{{ GetBit(row.clubModelLimit, 0) == 0 ? '无权限' : '有权限' }}</p>
 						<p>联盟：{{ GetBit(row.clubModelLimit, 1) == 0 ? '无权限' : '有权限' }}</p>
 					</template>
 				</el-table-column> -->

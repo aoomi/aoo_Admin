@@ -75,8 +75,8 @@
 				</el-table-column>
 				<el-table-column prop="clubModelLimit" label="模式权限" min-width="200">
 					<template #default="{ row }">
-						<p>当前模式: {{ row.clubModel == 0 ? '亲友圈' : '联盟' }}</p>
-						<p>亲友圈：{{ GetBit(row.clubModelLimit, 0) == 0 ? '无权限' : '有权限' }}</p>
+						<p>当前模式: {{ row.clubModel == 0 ? '俱乐部' : '联盟' }}</p>
+						<p>俱乐部：{{ GetBit(row.clubModelLimit, 0) == 0 ? '无权限' : '有权限' }}</p>
 						<p>联盟：{{ GetBit(row.clubModelLimit, 1) == 0 ? '无权限' : '有权限' }}</p>
 					</template>
 				</el-table-column>
